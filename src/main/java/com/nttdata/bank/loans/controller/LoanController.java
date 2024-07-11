@@ -100,6 +100,15 @@ public class LoanController implements CreditsApi {
     }
 
     @Override
+    public Mono<ResponseEntity<Flux<Credit>>> getCreditsByCustomerId(String customerId, ServerWebExchange exchange) {
+        Flux<Credit> creditsFlux = creditService.findByCustomerId(customerId)
+                .map(creditMapper::toModel);
+
+        return Mono.just(ResponseEntity.ok(creditsFlux))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @Override
     public Mono<ResponseEntity<Transaction>> makeCreditCharge(String id, Mono<MakeCreditChargeRequest> makeCreditChargeRequest, ServerWebExchange exchange) {
         return makeCreditChargeRequest
                 .map(chargeMapper::toDomain)

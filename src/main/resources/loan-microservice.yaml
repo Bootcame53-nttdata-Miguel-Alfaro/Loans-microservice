@@ -45,6 +45,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Credit'
+  /credits/customer/{customerId}:
+    get:
+      tags:
+        - credit
+      summary: Get all accounts for a credit
+      description: Returns all credits for a specified customer
+      operationId: getCreditsByCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of the customer to return credits for
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Credit'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Credit'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Customer not found
   /credits/{id}:
     get:
       tags:
